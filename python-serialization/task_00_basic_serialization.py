@@ -1,26 +1,25 @@
-#!/usr/bin/env python3
-from task_00_basic_serialization import load_and_deserialize, serialize_and_save_to_file
+import json
 
-# Sample data to be serialized
-data_to_serialize = {
-    "name": "John Doe",
-    "age": 30,
-    "city": "New York"
-}
+def serialize_and_save_to_file(data, filename):
+    """
+    Serializes a Python dictionary to JSON and saves it to a file.
 
-# Serialize the data to JSON and save it to a file
-serialize_and_save_to_file(data_to_serialize, 'data.json')
+    Args:
+        data (dict): The dictionary to serialize.
+        filename (str): The path to the file where the JSON will be saved.
+    """
+    with open(filename, 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
 
-# Output: The data has been serialized and saved to 'data.json'
-print("Data serialized and saved to 'data.json'.")
+def load_and_deserialize(filename):
+    """
+    Loads and deserializes JSON data from a file back into a Python dictionary.
 
-# Load and deserialize data from 'data.json'
-deserialized_data = load_and_deserialize('data.json')
+    Args:
+        filename (str): The path to the JSON file to read.
 
-# Output: The deserialized data
-print("Deserialized Data:")
-print(deserialized_data)
-
-Data serialized and saved to 'data.json'.
-Deserialized Data:
-{'name': 'John Doe', 'age': 30, 'city': 'New York'}
+    Returns:
+        dict: The deserialized dictionary.
+    """
+    with open(filename, 'r', encoding='utf-8') as file:
+        return json.load(file)
