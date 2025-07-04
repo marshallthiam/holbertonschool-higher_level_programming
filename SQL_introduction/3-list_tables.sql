@@ -1,2 +1,2 @@
---- commentaires
+-- commentaires
 SHOW TABLES;
