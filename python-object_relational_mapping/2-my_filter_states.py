@@ -1,37 +1,27 @@
 #!/usr/bin/python3
-""" Script that lists all values in the states table
-    where name matches the argument (safe from SQL injections).
+""" 
+Script that takes in arguments and displays all values in the states table 
+where name matches the argument (safe from SQL injection).
 """
 
 import MySQLdb
-import sys
+from sys import argv
 
 if __name__ == "__main__":
-    # Get arguments
-    username = sys.argv[1]
-    password = sys.argv[2]
-    dbname = sys.argv[3]
-    state_name = sys.argv[4]
-
-    # Connect to the database
+    # Connect to MySQL
     db = MySQLdb.connect(
-        host="localhost",
-        port=3306,
-        user=username,
-        passwd=password,
-        db=dbname
+        host="localhost", port=3306,
+        user=argv[1], passwd=argv[2], db=argv[3]
     )
 
-    # Create a cursor
     cur = db.cursor()
-
-    # Create and execute query using format (not safe for user input in general)
-    query = "SELECT * FROM states WHERE name = '{}' ORDER BY id ASC".format(state_name)
-    cur.execute(query)
+    
+    # Secure query using parameterized SQL (to avoid SQL injection)
+    cur.execute("SELECT * FROM states WHERE name = %s ORDER BY id ASC", (argv[4],))
 
     # Fetch and print results
-    results = cur.fetchall()
-    for row in results:
+    rows = cur.fetchall()
+    for row in rows:
         print(row)
 
     # Clean up
